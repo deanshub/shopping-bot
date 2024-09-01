@@ -1,1 +1,1 @@
-export const SHOPPING_LISTS_DIR = "shoppingLists"
+export const SHOPPING_LISTS_DIR = process.env.SHOPPING_LISTS_DIR || "shoppingLists"

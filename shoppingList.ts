@@ -63,7 +63,7 @@ export function getAllShoppingLists(): Map<number, string[]> {
 
 export async function ensureShoppingListDir(){
     try {
-        await mkdir(SHOPPING_LISTS_DIR)
+        await mkdir(SHOPPING_LISTS_DIR, { recursive: true })
     } catch (error) {
         console.error(error)
     }
