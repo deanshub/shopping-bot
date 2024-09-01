@@ -1,0 +1,1 @@
+export const SHOPPING_LISTS_DIR = "shoppingLists"
