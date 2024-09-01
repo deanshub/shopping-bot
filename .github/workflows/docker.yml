@@ -14,7 +14,7 @@ jobs:
       IMAGE_NAME: ${{ github.repository }}
 
     permissions:
-      contents: read
+      contents: write
       packages: write
 
     runs-on: ubuntu-latest
