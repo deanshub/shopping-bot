@@ -43,7 +43,8 @@ export async function addItemsToShoppingList(items: string[], listId: number) {
         return item.replace('לא צריך', '').trim()
     })
     const shoppingList = originalShoppingList.filter((item) => {
-        return !renamedItemsToRemove.includes(item)
+        // return !renamedItemsToRemove.includes(item)
+        return !renamedItemsToRemove.some(removeItem => item.includes(removeItem))
     })
 
     
