@@ -40,12 +40,8 @@ So what items would you like to include in your shopping list?`,{parse_mode: 'HT
     })
 
     bot.command("list", async (ctx) => {
-        const shoppingList = await getShoppingList(ctx.chat.id)
-        if (shoppingList.length === 0) {
-            await ctx.reply("Your shopping list is empty", slientOption)
-            return
-        }
-        await ctx.reply(shoppingList.sort().join("\n"), slientOption)
+        const shoppingListMessage = await getShoppingListMessage(ctx.chat.id)
+        await ctx.reply(shoppingListMessage, slientOption)
     })
 
     bot.command("clear", async (ctx) => {
@@ -56,7 +52,8 @@ So what items would you like to include in your shopping list?`,{parse_mode: 'HT
     bot.on("message:text", async (ctx) => {
         const items = getItemsFromText(ctx.message.text)
         await addItemsToShoppingList(items, ctx.chat.id)
-        await ctx.reply(`Done, there are now ${items.length} items in your shopping list`, slientOption)
+        const shoppingListMessage = await getShoppingListMessage(ctx.chat.id)
+        await ctx.reply(shoppingListMessage, slientOption)
     })
 
     bot.api.setMyCommands([
@@ -66,7 +63,7 @@ So what items would you like to include in your shopping list?`,{parse_mode: 'HT
         // {command: "help", description: "Get help with using the bot"},
     ])
 
-    cron.schedule("0 8 * * 5", async () => {
+    cron.schedule("0 6 * * 5", async () => {
         const shoppingLists = getAllShoppingLists()
         for (const [chatId, items] of shoppingLists) {
             if (items.length === 0) {
@@ -75,4 +72,12 @@ So what items would you like to include in your shopping list?`,{parse_mode: 'HT
             await bot.api.sendMessage(chatId, `Here's your shopping list for today:\n\n${items.sort().join("\n")}`)
         }
     });
+}
+
+async function getShoppingListMessage(id: number): Promise<string> {
+    const shoppingList = await getShoppingList(id)
+    if (shoppingList.length === 0) {
+        return "Your shopping list is empty"
+    }
+    return shoppingList.sort().join("\n")
 }
