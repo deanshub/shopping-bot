@@ -37,10 +37,10 @@ export async function getShoppingList(listId: number): Promise<string[]> {
 
 export async function addItemsToShoppingList(items: string[], listId: number) {
     const originalShoppingList = await getShoppingList(listId)
-    const itemsToRemove = items.filter((item) => item.includes('לא צריך'))
+    const itemsToRemove = items.filter((item) => item.includes('לא צריך') || item.includes('קניתי'))
     const newItems = items.filter((item) => !originalShoppingList.includes(item) && !itemsToRemove.includes(item))
     const renamedItemsToRemove = itemsToRemove.map((item) => {
-        return item.replace('לא צריך', '').trim()
+        return item.replace('לא צריך', '').replace('קניתי', '').trim()
     })
     const shoppingList = originalShoppingList.filter((item) => {
         // return !renamedItemsToRemove.includes(item)
