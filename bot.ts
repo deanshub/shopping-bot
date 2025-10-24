@@ -63,7 +63,7 @@ So what items would you like to include in your shopping list?`,{parse_mode: 'HT
         // {command: "help", description: "Get help with using the bot"},
     ])
 
-    cron.schedule("0 6 * * 5", async () => {
+    cron.schedule("30 7 * * 5", async () => {
         const shoppingLists = getAllShoppingLists()
         for (const [chatId, items] of shoppingLists) {
             if (items.length === 0) {
